@@ -1,5 +1,9 @@
 --- 
 - hosts: acs-manager
+
+  vars_files:
+    - group_vars/management-server-vars
+
   roles: 
     - mysql
     - nfs-server
@@ -7,8 +11,10 @@
     - cloudmonkey
     - cloudstack-agent
     - openvswitch
+
   tasks: 
     - include: ./roles/cloudstack-manager/tasks/seedstorage.yml
+
   vars: 
     - mysql_root_password: Cl0ud5tack
     - mysql_cloud_password: Cl0ud5tack
