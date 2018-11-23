@@ -1,0 +1,9 @@
+cloudstack-repo: http://download.cloudstack.org/centos/7/4.11/
+remote_user: taoxb
+mysql_root_password: test123
+mysql_cloud_password: test123
+old_mysql_root_password: ""
+systemvm_templates: 
+  - { url: 'http://cloudstack.apt-get.eu/systemvm/4.11/systemvmtemplate-4.11.1-kvm.qcow2.bz2', hypervisor: 'kvm' }
+  - { url: 'http://cloudstack.apt-get.eu/systemvm/4.11/systemvmtemplate-4.11.1-vmware.ova', hypervisor: 'vmware' }
+  - { url: 'http://cloudstack.apt-get.eu/systemvm/4.11//systemvmtemplate-4.11.1-xen.vhd.bz2', hypervisor: 'xenserver' }
