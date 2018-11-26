@@ -12,3 +12,9 @@
   become: yes
   become_method: sudo 
 
+- name: Add host to hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "{{inventory_hostname}} {{management_server_name}}"
+  become: yes
+  become_method: sudo
