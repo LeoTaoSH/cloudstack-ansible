@@ -20,7 +20,7 @@
   become_method: sudo
 
 - name: Set hostname
-    shell: hostnamectl set-hostname {{management_server_name}}.{{cloud_domain}}
+  shell: hostnamectl set-hostname "{{management_server_name}}.{{cloud_domain}}"
   become: yes
   become_method: sudo
 

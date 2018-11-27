@@ -1,7 +1,7 @@
 --- 
 - name: Set up cloudstack management server
   hosts: acs-manager
-  remote_user: {{remote_user}}
+  remote_user: "{{remote_user}}"
 
   vars_files:
     - group_vars/management-server-vars.yml
