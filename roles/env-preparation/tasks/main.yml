@@ -21,6 +21,8 @@
 
 - name: Set hostname
     shell: hostnamectl set-hostname {{management_server_name}}.{{cloud_domain}}
+  become: yes
+  become_method: sudo
 
 - name: Ensure ntp packages are installed
   yum: name={{ item }} state=present
@@ -28,3 +30,5 @@
     - epel-release
     - ntp
     - ansible
+  become: yes
+  become_method: sudo
