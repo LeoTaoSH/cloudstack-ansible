@@ -6,16 +6,17 @@
   vars_files:
     - group_vars/management-server-vars.yml
 
-  roles: 
-    - mysql
-    - nfs-server
-    - cloudstack-manager
-    - cloudmonkey
-    - cloudstack-agent
-    - openvswitch
+  roles:
+    - env-preparation 
+#    - mysql
+#    - nfs-server
+#    - cloudstack-manager
+#    - cloudmonkey
+#    - cloudstack-agent
+#    - openvswitch
 
-  tasks: 
-    - include: ./roles/cloudstack-manager/tasks/seedstorage.yml
+#  tasks: 
+#    - include: ./roles/cloudstack-manager/tasks/seedstorage.yml
 
 #  vars: 
 #    - mysql_root_password: Cl0ud5tack

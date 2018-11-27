@@ -18,3 +18,13 @@
     line: "{{inventory_hostname}} {{management_server_name}}"
   become: yes
   become_method: sudo
+
+- name: Set hostname
+    shell: hostnamectl set-hostname {{management_server_name}}.{{cloud_domain}}
+
+- name: Ensure ntp packages are installed
+  yum: name={{ item }} state=present
+  with_items:
+    - epel-release
+    - ntp
+    - ansible
