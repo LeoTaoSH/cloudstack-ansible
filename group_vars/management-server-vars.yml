@@ -8,6 +8,6 @@ systemvm_templates:
   - { url: 'http://cloudstack.apt-get.eu/systemvm/4.11/systemvmtemplate-4.11.1-vmware.ova', hypervisor: 'vmware' }
   - { url: 'http://cloudstack.apt-get.eu/systemvm/4.11//systemvmtemplate-4.11.1-xen.vhd.bz2', hypervisor: 'xenserver' }
 
-server_id: 0
+server_id: 
 management_server_name: "Management-Server{{server_id}}"
 cloud_domain: "cloud.lab.org"

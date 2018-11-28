@@ -15,7 +15,7 @@
 - name: Add host to hosts
   lineinfile:
     path: /etc/hosts
-    line: "{{inventory_hostname}} {{management_server_name}}"
+    line: "{{inventory_hostname}} {{management_server_name}}.{{cloud_domain}}"
   become: yes
   become_method: sudo
 
