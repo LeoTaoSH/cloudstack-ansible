@@ -1,3 +1,5 @@
+#usage: ansible-playbook -i files/hosts deploy-cloudstack.yml -e server_id=1 -vvvv
+
 --- 
 - name: Set up cloudstack management server
   hosts: acs-manager
