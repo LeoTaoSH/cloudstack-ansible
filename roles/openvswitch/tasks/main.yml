@@ -5,6 +5,20 @@
 
 ---
 
+- name: Install cfg
+  shell: pip install ifcfg
+
+- name: Upgrade pip
+  yum: name = pip state = latest 
+
+- name: Openvswitch
+  yum: 
+  with_items:
+    - python-pip
+    - openvswitch.x86_64 
+    - openvswitch-controller.x86_64 
+    - NetworkManager-ovs
+
 - name: Ensure openvswitch is installed
   yum: name=openvswitch state=present
 

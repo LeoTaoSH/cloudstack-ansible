@@ -26,3 +26,13 @@
   
 - name: Ensure CloudStack Usage Service is started
   service: name=cloudstack-usage state=started
+
+- name: Modify suoders
+  lineinfile:
+    path: /etc/suoders
+    line: Defaults:cloud !requiretty
+  become: yes
+  become_method: sudo
+
+- name: Setup management Server
+  shell: cloudstack-setup-management
