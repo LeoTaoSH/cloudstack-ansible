@@ -46,7 +46,7 @@
 - name: Ensure GPGKey is installed
   rpm_key: state=present key={{ item }}
   with_items:
-  - http://packages.shapeblue.com/release.asc
+    - http://packages.shapeblue.com/release.asc
   become: yes
   become_method: sudo
 
