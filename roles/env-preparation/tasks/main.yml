@@ -32,3 +32,32 @@
     - ansible
   become: yes
   become_method: sudo
+
+- name: Ensure selinux python bindings are installed
+  yum: name=libselinux-python state=present
+  become: yes
+  become_method: sudo
+  
+- name: Ensure the Apache Cloudstack Repo file is configured
+  template: src=cloudstack.repo.j2 dest=/etc/yum.repos.d/cloudstack.repo
+  become: yes
+  become_method: sudo
+
+- name: Ensure GPGKey is installed
+  rpm_key: state=present key={{ item }}
+  with_items:
+  - http://packages.shapeblue.com/release.asc
+  become: yes
+  become_method: sudo
+
+- name: Set selinux to permissive
+  command: setenforce permissive
+  changed_when: false
+  become: yes
+  become_method: sudo
+  
+- name: Ensure selinux is set permanently
+  selinux: policy=targeted state=permissive
+  become: yes
+  become_method: sudo
+

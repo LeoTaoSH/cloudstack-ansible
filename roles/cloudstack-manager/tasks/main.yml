@@ -4,24 +4,6 @@
 # Released by ShapeBlue <info@shapeblue.com>, April 2014
 
 ---
-- name: Ensure selinux python bindings are installed
-  yum: name=libselinux-python state=present
-  
-- name: Ensure the Apache Cloudstack Repo file is configured
-  template: src=cloudstack.repo.j2 dest=/etc/yum.repos.d/cloudstack.repo
-
-- name: Ensure GPGKey is installed
-  rpm_key: state=present key={{ item }}
-  with_items:
-  - http://packages.shapeblue.com/release.asc
-
-- name: Set selinux to permissive
-  command: setenforce permissive
-  changed_when: false
-  
-- name: Ensure selinux is set permanently
-  selinux: policy=targeted state=permissive
-
 - name: Ensure CloudStack Management packages are installed
   yum: name=cloudstack-management state=present
 
