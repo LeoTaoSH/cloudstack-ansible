@@ -25,10 +25,10 @@
   become: yes
   become_method: sudo
 
-- name: Ensure MariaDB stopped
-  service: name=mariadb state=stopped
-  become: yes
-  become_method: sudo
+#- name: Ensure MariaDB stopped
+#  service: name=mariadb state=stopped
+#  become: yes
+#  become_method: sudo
 
 - name: Configure MySQL my.cnf using Template
   template: src=mariadb.cnf.j2 dest=/etc/my.cnf
@@ -36,12 +36,17 @@
   become_method: sudo
 
 - name: Ensure MariaDB started
-  service: name=mariadb state=started
+  service: name=mariadb state=restarted
   become: yes
   become_method: sudo
 
 - name: Ensure Mariadb service is started and set to start on boot
   service: name=mariadb state=started enabled=yes
+  become: yes
+  become_method: sudo
+
+- name: Ensure mysql python are installed (Ansible requirement)
+  yum: name=MySQL-python state=present
   become: yes
   become_method: sudo
   
