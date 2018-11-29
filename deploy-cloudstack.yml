@@ -9,8 +9,8 @@
     - group_vars/management-server-vars.yml
 
   roles:
-    - env-preparation 
-#    - mysql
+#    - env-preparation 
+    - mariadb
 #    - nfs-server
 #    - cloudstack-manager
 #    - cloudmonkey

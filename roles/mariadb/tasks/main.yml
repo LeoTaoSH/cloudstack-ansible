@@ -2,12 +2,21 @@
 
 - name: Ensure selinux python bindings are installed (Ansible requirement)
   yum: name=libselinux-python state=present
+  become: yes
+  become_method: sudo
 
-- name: Remove firewalld if present
-  yum: name=firewalld state=absent
+#- name: Remove firewalld if present
+#  yum: name=firewalld state=absent
 
-- name: Remove iptables if present
-  yum: name=iptables state=absent
+#- name: Remove iptables if present
+#  yum: name=iptables state=absent
+
+- name: Disable service firewalld, and not touch the state
+  service:
+    name: firewalld
+    enabled: no
+  become: yes
+  become_method: sudo
 
 - name: Install MariaDB
   yum: name={{ item }} state=present
@@ -18,7 +27,9 @@
   become_method: sudo
 
 - name: Configure MySQL my.cnf using Template
-  template: src=my.cnf.j2 dest=/etc/my.cnf
+  template: src=mariadb.cnf.j2 dest=/etc/my.cnf
+  become: yes
+  become_method: sudo
 
 - name: Ensure MariaDB started
   service: name=mariadb state=restarted
@@ -27,8 +38,12 @@
 
 - name: Ensure Mariadb service is started and set to start on boot
   service: name=mariadb state=started enabled=yes
+  become: yes
+  become_method: sudo
   
 - name: update mariadb root password
   mysql_user: user="root" password="{{ mysql_root_password }}" host="localhost" login_user="root" login_password="{{ old_mysql_root_password }}"
+  become: yes
+  become_method: sudo
 
 
