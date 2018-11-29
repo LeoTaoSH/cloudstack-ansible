@@ -54,5 +54,12 @@
   mysql_user: user="root" password="{{ mysql_root_password }}" host="localhost" login_user="root" login_password="{{ old_mysql_root_password }}"
   become: yes
   become_method: sudo
+  ignore_errors: true
+
+- name: Removes the test database
+  mysql_db: login_user=root login_password="{{ mysql_root_password }}" db=test state=absent
+  become: yes
+  become_method: sudo
+
 
 
