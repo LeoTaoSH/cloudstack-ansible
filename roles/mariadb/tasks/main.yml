@@ -25,11 +25,6 @@
   become: yes
   become_method: sudo
 
-#- name: Ensure MariaDB stopped
-#  service: name=mariadb state=stopped
-#  become: yes
-#  become_method: sudo
-
 - name: Configure MySQL my.cnf using Template
   template: src=mariadb.cnf.j2 dest=/etc/my.cnf
   become: yes
