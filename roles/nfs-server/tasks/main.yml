@@ -5,22 +5,73 @@
   with_items:
     - rpcbind
     - nfs-utils
+  become: yes
+  become_method: sudo
 
 - name: Ensure rpcbind is running
   service: name=rpcbind state=started
+  become: yes
+  become_method: sudo
 
 - name: Ensure NFS ports are configured
-  command: sed -i -e '/#MOUNTD_NFS_V3="no"/ c\MOUNTD_NFS_V3="yes"' -e '/#RQUOTAD_PORT=875/ c\RQUOTAD_PORT=875' -e '/#LOCKD_TCPPORT=32803/ c\LOCKD_TCPPORT=32803' -e '/#LOCKD_UDPPORT=32769/ c\LOCKD_UDPPORT=32769' -e  '/#MOUNTD_PORT=892/ c\MOUNTD_PORT=892' -e '/#STATD_PORT=662/ c\STATD_PORT=662' -e '/#STATD_OUTGOING_PORT=2020/ c\STATD_OUTGOING_PORT=2020' /etc/sysconfig/nfs
+  command: sed -i -e '/#LOCKD_TCPPORT=32803/ c\LOCKD_TCPPORT=32803' -e '/#LOCKD_UDPPORT=32769/ c\LOCKD_UDPPORT=32769' -e  '/#MOUNTD_PORT=892/ c\MOUNTD_PORT=892' -e '/#RQUOTAD_PORT=875/ c\RQUOTAD_PORT=875' -e '/#STATD_PORT=662/ c\STATD_PORT=662' -e '/#STATD_OUTGOING_PORT=2020/ c\STATD_OUTGOING_PORT=2020' /etc/sysconfig/nfs
+  become: yes
+  become_method: sudo
 
 - name: Create export directory
   file: path={{ item }} state=directory mode=777 owner=root group=root
   with_items:
     - "/exports/secondary" 
     - "/exports/primary"
+  become: yes
+  become_method: sudo
 
 - name: Configure Exports
   template: src=exports.j2 dest=/etc/exports
+  become: yes
+  become_method: sudo
 
 - name: Export mounts
   command: exportfs -a
+  become: yes
+  become_method: sudo
+
+- name: Add rules to iptables
+  shell: {{ item }}
+  with_items:
+    - iptables -A INPUT -s 192.168.0.0/24 -m state --state NEW -p udp --dport 111 -j ACCEPT
+    - iptables -A INPUT -s 192.168.0.0/24 -m state --state NEW -p tcp --dport 111 -j ACCEPT
+    - iptables -A INPUT -s 192.168.0.0/24 -m state --state NEW -p tcp --dport 2049 -j ACCEPT
+    - iptables -A INPUT -s 192.168.0.0/24 -m state --state NEW -p tcp --dport 32803 -j ACCEPT
+    - iptables -A INPUT -s 192.168.0.0/24 -m state --state NEW -p udp --dport 32769 -j ACCEPT
+    - iptables -A INPUT -s 192.168.0.0/24 -m state --state NEW -p tcp --dport 892 -j ACCEPT
+    - iptables -A INPUT -s 192.168.0.0/24 -m state --state NEW -p udp --dport 892 -j ACCEPT
+    - iptables -A INPUT -s 192.168.0.0/24 -m state --state NEW -p tcp --dport 875 -j ACCEPT
+    - iptables -A INPUT -s 192.168.0.0/24 -m state --state NEW -p udp --dport 875 -j ACCEPT
+    - iptables -A INPUT -s 192.168.0.0/24 -m state --state NEW -p tcp --dport 662 -j ACCEPT
+    - iptables -A INPUT -s 192.168.0.0/24 -m state --state NEW -p udp --dport 662 -j ACCEPT
+  become: yes
+  become_method: sudo
+
+- name: Save rules to iptables
+  shell: iptables-save > /etc/sysconfig/iptables
+  become: yes
+  become_method: sudo
+
+- name: Change domain name
+  lineinfile:
+  path: /etc/idmapd.conf
+    regexp: '^#Domain'
+    line: 'Domain = cloud.lab.org'
+  become: yes
+  become_method: sudo
+
+- name: Ensure {{ item }} service is started and set to start on boot
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+    - rpcbind
+    - nfs
+  become: yes
+  become_method: sudo
+
 
