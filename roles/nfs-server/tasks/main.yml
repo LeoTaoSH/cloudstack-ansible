@@ -21,8 +21,8 @@
 - name: Create export directory
   file: path={{ item }} state=directory mode=777 owner=root group=root
   with_items:
-    - "/exports/secondary" 
-    - "/exports/primary"
+    - "/export/secondary" 
+    - "/export/primary"
   become: yes
   become_method: sudo
 
