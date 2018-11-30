@@ -13,8 +13,19 @@
   become: yes
   become_method: sudo
 
+#  command: sed -i -e '/#LOCKD_TCPPORT=32803/ c\LOCKD_TCPPORT=32803' -e '/#LOCKD_UDPPORT=32769/ c\LOCKD_UDPPORT=32769' -e  '/#MOUNTD_PORT=892/ c\MOUNTD_PORT=892' -e '/#RQUOTAD_PORT=875/ c\RQUOTAD_PORT=875' -e '/#STATD_PORT=662/ c\STATD_PORT=662' -e '/#STATD_OUTGOING_PORT=2020/ c\STATD_OUTGOING_PORT=2020' /etc/sysconfig/nfs
 - name: Ensure NFS ports are configured
-  command: sed -i -e '/#LOCKD_TCPPORT=32803/ c\LOCKD_TCPPORT=32803' -e '/#LOCKD_UDPPORT=32769/ c\LOCKD_UDPPORT=32769' -e  '/#MOUNTD_PORT=892/ c\MOUNTD_PORT=892' -e '/#RQUOTAD_PORT=875/ c\RQUOTAD_PORT=875' -e '/#STATD_PORT=662/ c\STATD_PORT=662' -e '/#STATD_OUTGOING_PORT=2020/ c\STATD_OUTGOING_PORT=2020' /etc/sysconfig/nfs
+  lineinfile:
+    path: /etc/sysconfig/nfs
+    line: '{{ item }}'
+    state: present
+  with_items:
+    - 'LOCKD_TCPPORT=32803'
+    - 'LOCKD_UDPPORT=32769'
+    - 'MOUNTD_PORT=892'
+    - 'RQUOTAD_PORT=875'
+    - 'STATD_PORT=662'
+    - 'STATD_OUTGOING_PORT=2020'
   become: yes
   become_method: sudo
 
