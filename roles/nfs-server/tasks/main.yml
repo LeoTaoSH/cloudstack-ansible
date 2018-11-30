@@ -60,7 +60,7 @@
 
 - name: Change domain name
   lineinfile:
-  path: /etc/idmapd.conf
+    path: /etc/idmapd.conf
     regexp: '^#Domain'
     line: 'Domain = cloud.lab.org'
   become: yes
