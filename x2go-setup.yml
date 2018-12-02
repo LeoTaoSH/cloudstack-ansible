@@ -8,7 +8,21 @@
   vars_files:
     - group_vars/all.yml
 
-  tasks: 
+  tasks:
+    - name: Upgrade all packages to latest version
+      yum: 
+        name: '*' 
+        state: latest
+      become: yes
+      become_method: sudo
+
+    - name: Ensure epel-release package are installed
+      yum: name={{ item }} state=present
+      with_items:
+        - epel-release
+      become: yes
+      become_method: sudo  
+
     - name: install x2go sesssion server
       yum: name=x2goserver-xsession state=present
       become: yes
