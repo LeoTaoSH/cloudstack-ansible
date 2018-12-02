@@ -7,7 +7,11 @@
 
 - name: cloudstack-setup-databases
   command: "/usr/bin/cloudstack-setup-databases 'cloud':'{{ mysql_cloud_password }}'@'localhost' --deploy-as=root:{{ mysql_root_password }}"
+  become: yes
+  become_method: sudo
 
 
 - name: Setup CloudStack Manager
   command: /usr/bin/cloudstack-setup-management
+  become: yes
+  become_method: sudo

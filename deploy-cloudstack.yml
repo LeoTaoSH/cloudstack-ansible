@@ -11,8 +11,8 @@
   roles:
 #    - env-preparation 
 #    - mariadb
-    - nfs-server
-#    - cloudstack-manager
+#    - nfs-server
+    - cloudstack-manager
 #    - cloudmonkey
 #    - cloudstack-agent
 #    - openvswitch

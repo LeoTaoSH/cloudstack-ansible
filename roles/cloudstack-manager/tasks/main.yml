@@ -6,26 +6,53 @@
 ---
 - name: Ensure CloudStack Management packages are installed
   yum: name=cloudstack-management state=present
+  become: yes
+  become_method: sudo
 
 - name: Ensure Python PIP is installed
   yum: name=python-pip state=present
+  become: yes
+  become_method: sudo
 
 - name: Ensure ifcfg pip app is installed
   pip: name=ifcfg state=present
+  become: yes
+  become_method: sudo
+
+# todo upgrade pip
+
+- name: Install openvswitch libs
+  yum: 
+    name: '{{ item }}'
+    state: present
+  with_items: 
+    - openvswitch.x86_64 
+    - openvswitch-controller.x86_64 
+    - NetworkManager-ovs
+  become: yes
+  become_method: sudo
 
 - name: Overrite the original networkConfig.py due to ifconfig format bug
   template: src=networkConfig.py.j2 dest=/usr/lib64/python2.7/site-packages/cloudutils/networkConfig.py
+  become: yes
+  become_method: sudo
 
 - name: Ensure vhd-util is present
   get_url: url="http://download.cloud.com.s3.amazonaws.com/tools/vhd-util" dest="/usr/share/cloudstack-common/scripts/vm/hypervisor/xenserver/vhd-util" mode=0755
+  become: yes
+  become_method: sudo
 
 - include: ./setupdb.yml
 
 - name: Ensure CloudStack Usage Service is installed
   yum: name=cloudstack-usage state=present
+  become: yes
+  become_method: sudo
   
 - name: Ensure CloudStack Usage Service is started
   service: name=cloudstack-usage state=started
+  become: yes
+  become_method: sudo
 
 - name: Modify suoders
   lineinfile:
@@ -34,5 +61,3 @@
   become: yes
   become_method: sudo
 
-- name: Setup management Server
-  shell: cloudstack-setup-management
