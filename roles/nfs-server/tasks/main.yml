@@ -73,6 +73,7 @@
   lineinfile:
     path: /etc/idmapd.conf
     regexp: '^#Domain'
+    insertafter: '#Domain = local.domain.edu'
     line: 'Domain = cloud.lab.org'
   become: yes
   become_method: sudo
