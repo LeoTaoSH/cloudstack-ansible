@@ -22,6 +22,7 @@
       become_method: sudo
 
     - name: reboot host
-      shell: reboot
+      reboot:
       become: yes
       become_method: sudo
+      ignore_errors: true
