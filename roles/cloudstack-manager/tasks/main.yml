@@ -19,7 +19,10 @@
   become: yes
   become_method: sudo
 
-# todo upgrade pip
+- name: Upgrade pip
+  yum: name = pip state = latest
+  become: yes
+  become_method: sudo
 
 - name: Install openvswitch libs
   yum: 
@@ -51,13 +54,6 @@
   
 - name: Ensure CloudStack Usage Service is started
   service: name=cloudstack-usage state=started
-  become: yes
-  become_method: sudo
-
-- name: Modify suoders
-  lineinfile:
-    path: /etc/suoders
-    line: Defaults:cloud !requiretty
   become: yes
   become_method: sudo
 

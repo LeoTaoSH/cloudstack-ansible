@@ -5,5 +5,68 @@
 
 ---
 
+- name: Add host to hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "{{inventory_hostname}} {{management_server_name}}.{{cloud_domain}}"
+  when: server_type == "Agent"
+  become: yes
+  become_method: sudo
+
+- name: Set hostname
+  shell: hostnamectl set-hostname "{{management_server_name}}.{{cloud_domain}}"
+  when: server_type == "Agent"
+  become: yes
+  become_method: sudo
+
+- name: Set selinux to permissive
+  command: setenforce permissive
+  changed_when: false
+  become: yes
+  become_method: sudo
+  
+- name: Ensure selinux is set permanently
+  selinux: policy=targeted state=permissive
+  become: yes
+  become_method: sudo
+
+- name: Ensure ntp packages are installed
+  yum: name={{ item }} state=present
+  with_items:
+    - epel-release
+    - ntp
+  when: server_type == "Agent"
+  become: yes
+  become_method: sudo
+
 - name: Ensure CloudStack Agent packages are installed
   yum: name=cloudstack-agent state=present
+  become: yes
+  become_method: sudo
+
+- name: Replace default libvirtd configs with updated ones
+  template: src=libvirtd.conf.j2 dest=/etc/libvirt/libvirtd.conf
+  become: yes
+  become_method: sudo
+
+- name: Update /etc/sysconfig/libvirtd
+  lineinfile:
+    path: /etc/sysconfig/libvirtd
+    regexp: '^#LIBVIRTD_ARGS='
+    insertafter: '^#LIBVIRTD_ARGS='
+    line: 'LIBVIRTD_ARGS="--listen"'
+  become: yes
+  become_method: sudo
+
+- name: Restart the libvirtd service
+  service: name=libvirtd state=restarted
+  become: yes
+  become_method: sudo
+
+- name: Modify sudoers
+  lineinfile:
+    path: /etc/sudoers
+    line: Defaults:cloud !requiretty
+  become: yes
+  become_method: sudo
+ 
