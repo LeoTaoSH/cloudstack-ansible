@@ -69,4 +69,21 @@
     line: Defaults:cloud !requiretty
   become: yes
   become_method: sudo
+
+- name: Add rules to iptables for Agent
+  shell: '{{ item }}'
+  with_items:
+    - 'iptables -I INPUT -p tcp -m tcp --dport 22 -j ACCEPT'
+    - 'iptables -I INPUT -p tcp -m tcp --dport 1798 -j ACCEPT'
+    - 'iptables -I INPUT -p tcp -m tcp --dport 16509 -j ACCEPT'
+    - 'iptables -I INPUT -p tcp -m tcp --dport 5900:6100 -j ACCEPT'
+    - 'iptables -I INPUT -p tcp -m tcp --dport 49152:49216 -j ACCEPT'
+  become: yes
+  become_method: sudo
+
+- name: Save rules to iptables
+  shell: iptables-save > /etc/sysconfig/iptables
+  become: yes
+  become_method: sudo
+
  
