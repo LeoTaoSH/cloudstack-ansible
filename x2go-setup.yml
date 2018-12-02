@@ -2,7 +2,7 @@
 
 --- 
 - name: Set up cloudstack management server
-  hosts: cloudhosts
+  hosts: all-hosts
   remote_user: "{{remote_user}}"
 
   tasks: 

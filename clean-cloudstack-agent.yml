@@ -1,4 +1,10 @@
 ---
-- hosts: acs-manager
-  roles: 
-      - clean-cloudstack-setup
+- name: Clean Cloudstack computer nodes
+  hosts: cloud-agents
+  remote_user: "{{remote_user}}"
+  
+tasks: 
+    - name: clean agent
+      yum: name=cloudstack-agent state=absent
+      become: yes
+      become_method: sudo

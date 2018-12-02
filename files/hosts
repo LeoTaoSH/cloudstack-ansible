@@ -2,6 +2,7 @@
 
 [acs-manager]
 192.168.0.112
+#192.168.0.113
 
 
 [acs-manager:vars]
@@ -11,15 +12,37 @@ ansible_ssh_private_key=~/.ssh/id_rsa
 192.168.0.111
 192.168.0.112
 192.168.0.113
+192.168.0.116
 192.168.0.114
 192.168.0.115
-192.168.0.116
 
 [cloudhosts:vars]
 ansible_ssh_private_key=~/.ssh/id_rsa
 
+[cloud-agents]
+192.168.0.111
+192.168.0.114
+192.168.0.115
+192.168.0.116
+
+[cloud-agents:vars]
+ansible_ssh_private_key=~/.ssh/id_rsa
+
 [jenkins-host]
 192.168.0.110
+#192.168.0.116
 
 [jenkins-host:vars]
+ansible_ssh_private_key=~/.ssh/id_rsa
+
+[all-hosts]
+192.168.0.110
+192.168.0.111
+192.168.0.112
+192.168.0.113
+192.168.0.116
+#192.168.0.114
+#192.168.0.115
+
+[all-hosts:vars]
 ansible_ssh_private_key=~/.ssh/id_rsa
