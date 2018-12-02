@@ -14,7 +14,7 @@
 #    - mariadb
 #    - nfs-server
 #    - cloudstack-manager
-#    - cloudstack-agent
+    - cloudstack-agent
 #    - cloudmonkey
 #    - openvswitch
 
