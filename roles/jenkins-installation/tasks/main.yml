@@ -1,0 +1,39 @@
+# Copyright (C) ShapeBlue Ltd - All Rights Reserved
+# Unauthorized copying of this file, via any medium is strictly prohibited
+# Proprietary and confidential
+# Released by ShapeBlue <info@shapeblue.com>, April 2014
+
+---
+
+- name: install wget
+  yum: 
+    name: 'wget' 
+    state: present
+  become: yes
+  become_method: sudo 
+
+- name: add jenkins repo and key
+  shell: |
+    wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+    rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+  become: yes
+  become_method: sudo
+
+- name: install jenkins
+  yum: 
+    name: 'jenkins' 
+    state: present
+  become: yes
+  become_method: sudo 
+
+- name: configure firewall
+  shell: |
+    firewall-cmd --zone=public --add-port=8080/tcp --permanent
+    firewall-cmd --reload
+  become: yes
+  become_method: sudo 
+
+- name: restart and enable jenkins
+  service: name=jenkins state=restarted enabled=yes
+  become: yes
+  become_method: sudo 

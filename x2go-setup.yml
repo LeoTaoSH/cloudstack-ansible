@@ -1,0 +1,24 @@
+#usage: ansible-playbook -i files/hosts deploy-cloudstack.yml -e server_id=1 -vvvv
+
+--- 
+- name: Set up cloudstack management server
+  hosts: cloudhosts
+  remote_user: "{{remote_user}}"
+
+  tasks: 
+    - name: install x2go sesssion server
+      yum: name=x2goserver-xsession state=present
+      become: yes
+      become_method: sudo
+
+    - name: install xfce
+      yum:
+        name: "@Xfce"
+        state: present
+      become: yes
+      become_method: sudo
+
+    - name: reboot host
+      shell: reboot
+      become: yes
+      become_method: sudo
