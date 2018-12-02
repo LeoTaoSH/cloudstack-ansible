@@ -1,5 +1,4 @@
 baseurl_cloudstack: "http://download.cloudstack.org/centos/7/4.11/"
-remote_user: "taoxb"
 mysql_root_password: "test123"
 mysql_cloud_password: "test123"
 old_mysql_root_password: ""

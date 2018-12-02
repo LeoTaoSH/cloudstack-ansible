@@ -5,6 +5,9 @@
   hosts: all-hosts
   remote_user: "{{remote_user}}"
 
+  vars_files:
+    - group_vars/all.yml
+
   tasks: 
     - name: install x2go sesssion server
       yum: name=x2goserver-xsession state=present
