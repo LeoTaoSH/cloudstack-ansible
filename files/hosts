@@ -21,9 +21,9 @@ ansible_ssh_private_key=~/.ssh/id_rsa
 
 [cloud-agents]
 192.168.0.111
-192.168.0.114
-192.168.0.115
 192.168.0.116
+#192.168.0.114
+#192.168.0.115
 
 [cloud-agents:vars]
 ansible_ssh_private_key=~/.ssh/id_rsa
