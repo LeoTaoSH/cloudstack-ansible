@@ -11,3 +11,10 @@
       yum: name=cloudstack-agent state=absent
       become: yes
       become_method: sudo
+
+    - name: remove configuration
+      file: name={{ item }} state=absent
+      with_items:
+        - /etc/cloudstack
+      become: yes
+      become_method: sudo
