@@ -14,9 +14,8 @@
 #    - mariadb
 #    - nfs-server
 #    - cloudstack-manager
-    - cloudstack-agent
-#    - cloudmonkey
-#    - openvswitch
+#    - cloudstack-agent
+    - cloudmonkey
 
 #  tasks: 
 #    - include: ./roles/cloudstack-manager/tasks/seedstorage.yml

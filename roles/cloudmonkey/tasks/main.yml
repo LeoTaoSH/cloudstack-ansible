@@ -2,15 +2,25 @@
 
 - name: install setup tools
   yum: name=python-setuptools state=present
+  become: yes
+  become_method: sudo
 
 - name: ensure cm config is removed
   file: path=/root/.cloudmonkey/config state=absent
+  become: yes
+  become_method: sudo
 
 - name: install cloudmonkey
   shell: easy_install cloudmonkey
+  become: yes
+  become_method: sudo
 
 - name: base configuration
   shell: cloudmonkey set history_file /usr/share/cloudmonkey_history && cloudmonkey set log_file /var/log/cloudmonkey && cloudmonkey set log_file /var/log/cloud-cli.log && cloudmonkey set username admin && cloudmonkey set password password
+  become: yes
+  become_method: sudo
  
 - name: download jq to parse json
   get_url: url=http://stedolan.github.io/jq/download/linux64/jq dest=/usr/bin mode=0777
+  become: yes
+  become_method: sudo
