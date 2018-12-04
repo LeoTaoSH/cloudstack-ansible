@@ -20,7 +20,12 @@
   become: yes
   become_method: sudo
  
-- name: download jq to parse json
-  get_url: url=http://stedolan.github.io/jq/download/linux64/jq dest=/usr/bin mode=0777
+#- name: download jq to parse json
+#  get_url: url=http://stedolan.github.io/jq/download/linux64/jq dest=/usr/bin mode=0777
+#  become: yes
+#  become_method: sudo
+
+- name: copy jq to parse json
+  template: src=jq.dms dest=/usr/bin/jq.dms mode=0777
   become: yes
   become_method: sudo
